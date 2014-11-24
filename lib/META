@@ -1,8 +1,8 @@
 # OASIS_START
-# DO NOT EDIT (digest: 4b209fb6ad362848f200a33ea358ae78)
+# DO NOT EDIT (digest: 56e288b97891126420daaa4324fd5150)
 version = "1.4.0"
 description = "A low-level interface to Git in pure OCaml"
-requires = "mstruct ocamlgraph zip nocrypto uri uri.services hex"
+requires = "mstruct ocamlgraph zip nocrypto uri uri.services hex bytes"
 archive(byte) = "git.cma"
 archive(byte, plugin) = "git.cma"
 archive(native) = "git.cmxa"
