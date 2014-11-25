@@ -14,7 +14,7 @@
  * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  *)
 
-open Sexplib.Std
+
 
 module Log = Log.Make(struct let section = "misc" end)
 
@@ -174,28 +174,25 @@ let try_assoc elt l =
 
 module type OrderedType = sig
   include Set.OrderedType
-  val sexp_of_t: t -> Sexplib.Type.t
-  val t_of_sexp: Sexplib.Type.t -> t
+  val pp : Format.formatter -> t -> unit
+  val show : t -> string
 end
 
 module type Set = sig
   include Set.S
-  val sexp_of_t: t -> Sexplib.Type.t
-  val t_of_sexp: Sexplib.Type.t -> t
+  val pp : Format.formatter -> t -> unit
   val to_list: t -> elt list
   val of_list: elt list -> t
 end
 
 module type Map = sig
   include Map.S
-  val sexp_of_t: ('a -> Sexplib.Type.t) -> 'a t -> Sexplib.Type.t
-  val t_of_sexp: (Sexplib.Type.t -> 'a) -> Sexplib.Type.t -> 'a t
+  val pp : (Format.formatter -> 'a -> unit) -> Format.formatter -> 'a t -> unit
   val keys: 'a t -> key list
   val to_alist: 'a t -> (key * 'a) list
   val of_alist: (key * 'a) list -> 'a t
   val add_multi: key -> 'a -> 'a list t -> 'a list t
 end
-
 
 module Set (X: OrderedType) = struct
 
@@ -206,14 +203,11 @@ module Set (X: OrderedType) = struct
 
   let to_list = elements
 
-  let sexp_of_t t =
+  type 'a mylist = 'a list [@@deriving show]
+
+  let pp fmt t =
     elements t
-    |> Sexplib.Conv.sexp_of_list X.sexp_of_t
-
-  let t_of_sexp s =
-    Sexplib.Conv.list_of_sexp X.t_of_sexp s
-    |> of_list
-
+    |> pp_mylist X.pp fmt
 end
 
 module Map (X: OrderedType) = struct
@@ -228,30 +222,28 @@ module Map (X: OrderedType) = struct
 
   let to_alist = bindings
 
-  let sexp_of_t sexp_of_a t =
+  type 'a mylist = (X.t * 'a) list [@@deriving show]
+
+  let pp pp_a fmt t =
     bindings t
-    |> Sexplib.Conv.(sexp_of_list (sexp_of_pair X.sexp_of_t sexp_of_a))
+    |> pp_mylist pp_a fmt
 
-  let t_of_sexp a_of_sexp s =
-    Sexplib.Conv.(list_of_sexp (pair_of_sexp X.t_of_sexp a_of_sexp) s)
-    |> of_alist
-
-    let add_multi key data t =
-      try
-        let l = find key t in
-        add key (data :: l) t
-      with Not_found ->
-        add key [data] t
+  let add_multi key data t =
+    try
+      let l = find key t in
+      add key (data :: l) t
+    with Not_found ->
+      add key [data] t
 
 end
 
 module I = struct
-  type t = int with sexp
+  type t = int [@@deriving show]
   let compare = compare
 end
 
 module S = struct
-  type t = string with sexp
+  type t = string [@@deriving show]
   let compare = String.compare
 end
 

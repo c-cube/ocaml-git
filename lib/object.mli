@@ -18,7 +18,7 @@
 
 module type S = sig
 
-  type t with sexp
+  type t [@@deriving show]
 
   val equal: t -> t -> bool
   (** Are two objects equal? *)

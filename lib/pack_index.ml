@@ -15,7 +15,7 @@
  *)
 
 open Lwt
-open Sexplib.Std
+
 open Printf
 
 module Log = Log.Make(struct let section = "pack-index" end)
@@ -24,7 +24,7 @@ type t = {
   offsets : int SHA.Map.t;
   crcs    : int32 SHA.Map.t;
   pack_checksum: SHA.t;
-} with sexp
+} [@@deriving show]
 
 let hash = Hashtbl.hash
 

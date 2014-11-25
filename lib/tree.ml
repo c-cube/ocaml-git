@@ -14,7 +14,7 @@
  * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  *)
 
-open Sexplib.Std
+
 open Printf
 
 module Log = Log.Make(struct let section = "tree" end)
@@ -24,15 +24,15 @@ type perm = [
   | `Exec
   | `Link
   | `Dir
-] with sexp
+] [@@deriving show]
 
 type entry = {
   perm: perm;
   name: string;
   node: SHA.t;
-} with sexp
+} [@@deriving show]
 
-type t = entry list with sexp
+type t = entry list [@@deriving show]
 
 let hash = Hashtbl.hash
 let compare = compare

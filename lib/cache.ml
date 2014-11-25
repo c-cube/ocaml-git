@@ -18,21 +18,21 @@
 
 open Lwt
 open Printf
-open Sexplib.Std
+
 
 module Log = Log.Make(struct let section = "cache" end)
 
 type time = {
   lsb32: int32;
   nsec : int32;
-} with sexp
+} [@@deriving show]
 
 type mode = [
     `Normal
   | `Exec
   | `Link
   | `Gitlink
-] with sexp
+] [@@deriving show]
 
 type stat_info = {
   ctime: time;
@@ -43,14 +43,14 @@ type stat_info = {
   uid  : int32;
   gid  : int32;
   size : int32;
-} with sexp
+} [@@deriving show]
 
 type entry = {
   stats : stat_info;
   id    : SHA.t;
   stage : int;
   name  : string;
-} with sexp
+} [@@deriving show]
 
 let pretty_entry t =
   sprintf
@@ -67,11 +67,13 @@ let pretty_entry t =
     t.stats.uid t.stats.gid
     t.stats.size t.stage
 
+type 'a mylist = 'a list [@@deriving show]
+
 type t = {
-  entries   : entry list;
+  entries   : entry list [@printer pp_mylist (fun fmt e -> Format.pp_print_string fmt (pretty_entry e))] ;
   extensions: (int32 * string) list;
 }
-with sexp
+[@@deriving show]
 
 let hash = Hashtbl.hash
 
@@ -82,7 +84,7 @@ let equal = (=)
 let pretty t =
   let buf = Buffer.create 1024 in
   List.iter (fun e ->
-      Buffer.add_string buf (Sexplib.Sexp.to_string_hum (sexp_of_entry e))
+      Buffer.add_string buf (show_entry e)
     ) t.entries;
   Buffer.contents buf
 

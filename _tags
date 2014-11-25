@@ -1,5 +1,5 @@
 # OASIS_START
-# DO NOT EDIT (digest: 8ec7c6d2ca4091a463691bc46ea6b1d2)
+# DO NOT EDIT (digest: e1d300de93e1c5c2d7a622cf532760c6)
 # Ignore VCS directories, you can use the same kind of rule outside
 # OASIS_START/STOP if you want to exclude directories that contains
 # useless stuff for the build process
@@ -43,12 +43,14 @@ true: annot, bin_annot
 "lib_unix/git-unix.cmxs": use_git-unix
 <lib_unix/*.ml{,i,y}>: pkg_bytes
 <lib_unix/*.ml{,i,y}>: pkg_conduit.lwt-unix
+<lib_unix/*.ml{,i,y}>: pkg_dolog
 <lib_unix/*.ml{,i,y}>: pkg_hex
 <lib_unix/*.ml{,i,y}>: pkg_lwt
 <lib_unix/*.ml{,i,y}>: pkg_lwt.unix
 <lib_unix/*.ml{,i,y}>: pkg_mstruct
 <lib_unix/*.ml{,i,y}>: pkg_nocrypto
 <lib_unix/*.ml{,i,y}>: pkg_ocamlgraph
+<lib_unix/*.ml{,i,y}>: pkg_ppx_deriving.std
 <lib_unix/*.ml{,i,y}>: pkg_uri
 <lib_unix/*.ml{,i,y}>: pkg_uri.services
 <lib_unix/*.ml{,i,y}>: pkg_zip
@@ -56,6 +58,7 @@ true: annot, bin_annot
 # Library git-mirage
 "lib/git-mirage.cmxs": use_git-mirage
 <lib/*.ml{,i,y}>: pkg_bytes
+<lib/*.ml{,i,y}>: pkg_dolog
 <lib/*.ml{,i,y}>: pkg_hex
 <lib/*.ml{,i,y}>: pkg_io-page
 <lib/*.ml{,i,y}>: pkg_lwt
@@ -63,6 +66,7 @@ true: annot, bin_annot
 <lib/*.ml{,i,y}>: pkg_mstruct
 <lib/*.ml{,i,y}>: pkg_nocrypto
 <lib/*.ml{,i,y}>: pkg_ocamlgraph
+<lib/*.ml{,i,y}>: pkg_ppx_deriving.std
 <lib/*.ml{,i,y}>: pkg_uri
 <lib/*.ml{,i,y}>: pkg_uri.services
 <lib/*.ml{,i,y}>: pkg_zip
@@ -71,12 +75,14 @@ true: annot, bin_annot
 <bin/ogit.{native,byte}>: pkg_bytes
 <bin/ogit.{native,byte}>: pkg_cmdliner
 <bin/ogit.{native,byte}>: pkg_conduit.lwt-unix
+<bin/ogit.{native,byte}>: pkg_dolog
 <bin/ogit.{native,byte}>: pkg_hex
 <bin/ogit.{native,byte}>: pkg_lwt
 <bin/ogit.{native,byte}>: pkg_lwt.unix
 <bin/ogit.{native,byte}>: pkg_mstruct
 <bin/ogit.{native,byte}>: pkg_nocrypto
 <bin/ogit.{native,byte}>: pkg_ocamlgraph
+<bin/ogit.{native,byte}>: pkg_ppx_deriving.std
 <bin/ogit.{native,byte}>: pkg_uri
 <bin/ogit.{native,byte}>: pkg_uri.services
 <bin/ogit.{native,byte}>: pkg_zip
@@ -85,12 +91,14 @@ true: annot, bin_annot
 <bin/*.ml{,i,y}>: pkg_bytes
 <bin/*.ml{,i,y}>: pkg_cmdliner
 <bin/*.ml{,i,y}>: pkg_conduit.lwt-unix
+<bin/*.ml{,i,y}>: pkg_dolog
 <bin/*.ml{,i,y}>: pkg_hex
 <bin/*.ml{,i,y}>: pkg_lwt
 <bin/*.ml{,i,y}>: pkg_lwt.unix
 <bin/*.ml{,i,y}>: pkg_mstruct
 <bin/*.ml{,i,y}>: pkg_nocrypto
 <bin/*.ml{,i,y}>: pkg_ocamlgraph
+<bin/*.ml{,i,y}>: pkg_ppx_deriving.std
 <bin/*.ml{,i,y}>: pkg_uri
 <bin/*.ml{,i,y}>: pkg_uri.services
 <bin/*.ml{,i,y}>: pkg_zip
@@ -100,6 +108,7 @@ true: annot, bin_annot
 <lib_test/test.{native,byte}>: pkg_alcotest
 <lib_test/test.{native,byte}>: pkg_bytes
 <lib_test/test.{native,byte}>: pkg_conduit.lwt-unix
+<lib_test/test.{native,byte}>: pkg_dolog
 <lib_test/test.{native,byte}>: pkg_hex
 <lib_test/test.{native,byte}>: pkg_io-page
 <lib_test/test.{native,byte}>: pkg_io-page.unix
@@ -110,6 +119,7 @@ true: annot, bin_annot
 <lib_test/test.{native,byte}>: pkg_mstruct
 <lib_test/test.{native,byte}>: pkg_nocrypto
 <lib_test/test.{native,byte}>: pkg_ocamlgraph
+<lib_test/test.{native,byte}>: pkg_ppx_deriving.std
 <lib_test/test.{native,byte}>: pkg_uri
 <lib_test/test.{native,byte}>: pkg_uri.services
 <lib_test/test.{native,byte}>: pkg_zip
@@ -119,6 +129,7 @@ true: annot, bin_annot
 <lib_test/*.ml{,i,y}>: pkg_alcotest
 <lib_test/*.ml{,i,y}>: pkg_bytes
 <lib_test/*.ml{,i,y}>: pkg_conduit.lwt-unix
+<lib_test/*.ml{,i,y}>: pkg_dolog
 <lib_test/*.ml{,i,y}>: pkg_hex
 <lib_test/*.ml{,i,y}>: pkg_io-page
 <lib_test/*.ml{,i,y}>: pkg_io-page.unix
@@ -129,6 +140,7 @@ true: annot, bin_annot
 <lib_test/*.ml{,i,y}>: pkg_mstruct
 <lib_test/*.ml{,i,y}>: pkg_nocrypto
 <lib_test/*.ml{,i,y}>: pkg_ocamlgraph
+<lib_test/*.ml{,i,y}>: pkg_ppx_deriving.std
 <lib_test/*.ml{,i,y}>: pkg_uri
 <lib_test/*.ml{,i,y}>: pkg_uri.services
 <lib_test/*.ml{,i,y}>: pkg_zip
@@ -137,4 +149,3 @@ true: annot, bin_annot
 <lib_test/*.ml{,i,y}>: use_git-unix
 # OASIS_STOP
 true: debug, bin_annot
-<lib/*.ml{,i}>: pkg_sexplib.syntax

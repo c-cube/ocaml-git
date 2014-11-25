@@ -14,7 +14,7 @@
  * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  *)
 
-open Sexplib.Std
+
 open Printf
 
 module Log = Log.Make(struct let section = "tag" end)
@@ -25,7 +25,7 @@ type t = {
   tag    : string;
   tagger : User.t;
   message: string;
-} with sexp
+} [@@deriving show]
 
 let hash = Hashtbl.hash
 let equal = (=)

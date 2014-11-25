@@ -15,14 +15,13 @@
  *)
 
 open Printf
-open Sexplib.Std
 
 module Log = Log.Make(struct let section = "packed-value" end)
 
 type copy = {
   offset: int;
   length: int;
-} with sexp
+} [@@deriving show]
 
 let pretty_copy t =
   sprintf "off:%d len:%d" t.offset t.length
@@ -30,7 +29,7 @@ let pretty_copy t =
 type hunk =
   | Insert of string
   | Copy of copy
-with sexp
+[@@deriving show]
 
 let pretty_hunk = function
   | Insert s -> sprintf "Insert %S" s
@@ -41,7 +40,7 @@ type 'a delta = {
   source_length: int;
   result_length: int;
   hunks: hunk list;
-} with sexp
+} [@@deriving show]
 
 let pretty_delta d =
   let buf = Buffer.create 128 in
@@ -60,7 +59,7 @@ type t =
   | Raw_value of string
   | Ref_delta of SHA.t delta
   | Off_delta of int delta
-with sexp
+[@@deriving show]
 
 let hash = Hashtbl.hash
 let equal = (=)
@@ -107,8 +106,6 @@ let add_delta buf delta =
 
 module Make (M: sig val version: int end) = struct
 
-  let sexp_of_t = sexp_of_t
-  let t_of_sexp = t_of_sexp
   let compare = compare
   let hash = hash
   let equal = equal
@@ -348,6 +345,8 @@ module Make (M: sig val version: int end) = struct
 
   let pretty = pretty
 
+  let show = pretty
+  let pp fmt x = Format.pp_print_string fmt (show x)
 end
 
 module V2 = Make(struct let version = 2 end)
@@ -362,7 +361,7 @@ module PIC = struct
     kind: kind;
     sha1: SHA.t;
   }
-  with sexp
+  [@@deriving show]
 
   let pretty_kind = function
     | Raw _  -> "RAW"
@@ -395,8 +394,8 @@ module PIC = struct
     { sha1; kind = Raw (Cstruct.to_string raw) }
 
   module X = struct
-    type x = t with sexp
-    type t = x with sexp
+    type x = t [@@deriving show]
+    type t = x [@@deriving show]
     let compare = compare
   end
   module Map = Misc.Map(X)
@@ -435,9 +434,9 @@ let to_pic offsets sha1s (pos, sha1, t) =
         let pic = Misc.IntMap.find offset offsets in
         PIC.Link { d with source = pic }
       with Not_found ->
-        eprintf "Cannot find offest %d in the index\n%s"
+        Format.eprintf "Cannot find offest %d in the index@.%a@."
           d.source
-          (Sexplib.Sexp.to_string_hum (Misc.IntMap.sexp_of_t PIC.sexp_of_t offsets));
+          (Misc.IntMap.pp PIC.pp) offsets;
         failwith "Packed_value.to_pic"
 
   in

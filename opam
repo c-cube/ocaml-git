@@ -32,6 +32,7 @@ depends: [
   "base-bytes"
   "alcotest" {test}
   "mirage-fs-unix" {test}
+  "ppx_deriving"
 ]
 depopts: [
   "mirage-types"
@@ -39,4 +40,4 @@ depopts: [
   "ipaddr"
   "conduits"
 ]
-available: [ocaml-version >= "4.01.0"]
+available: [ocaml-version >= "4.02.1"]

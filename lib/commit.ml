@@ -15,7 +15,7 @@
  *)
 
 open Printf
-open Sexplib.Std
+
 
 module Log = Log.Make(struct let section = "commit" end)
 
@@ -25,7 +25,7 @@ type t = {
   author   : User.t;
   committer: User.t;
   message  : string;
-} with sexp
+} [@@deriving show]
 
 let hash = Hashtbl.hash
 

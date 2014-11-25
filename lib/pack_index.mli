@@ -20,7 +20,7 @@ type t = {
   offsets      : int SHA.Map.t;
   crcs         : int32 SHA.Map.t;
   pack_checksum: SHA.t;
-} with sexp
+} [@@deriving show]
 (** [offsests] is the positions of the SHA objects in the
     corresponding raw pack file.
 

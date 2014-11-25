@@ -21,7 +21,7 @@ type t =
   | Commit
   | Tag
   | Tree
-with sexp
+[@@deriving show]
 
 let hash = Hashtbl.hash
 let equal = (=)

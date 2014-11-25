@@ -15,7 +15,6 @@
  *)
 
 open Lwt
-open Sexplib.Std
 open Printf
 
 module Raw = struct
@@ -25,11 +24,11 @@ module Raw = struct
   type t = {
     sha1    : SHA.t;
     index   : Pack_index.t;
-    buffer  : Cstruct.t;
+    buffer  : Cstruct.t  [@opaque] ;
     version : int;
     checksum: SHA.t;
-    values  :  (int * Cstruct.t * Packed_value.t) list;
-  } with sexp
+    values  :  (int * Cstruct.t [@opaque] * Packed_value.t) list;
+  } [@@deriving show]
 
   let hash = Hashtbl.hash
 
@@ -189,7 +188,7 @@ end
 
 module Log = Log.Make(struct let section = "pack" end)
 
-type t = (SHA.t * Packed_value.PIC.t) list with sexp
+type t = (SHA.t * Packed_value.PIC.t) list [@@deriving show]
 
 let hash = Hashtbl.hash
 

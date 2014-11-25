@@ -19,13 +19,13 @@
 type copy = {
   offset: int;
   length: int;
-} with sexp
+} [@@deriving show]
 (** Copy arguments. *)
 
 type hunk =
   | Insert of string
   | Copy of copy
-with sexp
+[@@deriving show]
 (** A delta hunk can either insert a string of copy the contents of a
     base object. *)
 
@@ -34,14 +34,14 @@ type 'a delta = {
   source_length: int;
   result_length: int;
   hunks        : hunk list;
-} with sexp
+} [@@deriving show]
 (** Delta objects. *)
 
 type t =
   | Raw_value of string
   | Ref_delta of SHA.t delta
   | Off_delta of int delta
-with sexp
+[@@deriving show]
 (** Packed values. *)
 
 val pretty: t -> string
@@ -111,7 +111,7 @@ module PIC: sig
   and t = {
     kind: kind;
     sha1: SHA.t;
-  } with sexp
+  } [@@deriving show]
 
   val pretty: t -> string
   (** Human readable representation. *)

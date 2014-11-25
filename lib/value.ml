@@ -16,7 +16,7 @@
 
 open Printf
 open Lwt
-open Sexplib.Std
+
 
 module Log = Log.Make(struct let section = "value" end)
 
@@ -25,7 +25,7 @@ type t =
   | Commit of Commit.t
   | Tag    of Tag.t
   | Tree   of Tree.t
-with sexp
+[@@deriving show]
 
 let equal = (=)
 let hash = Hashtbl.hash

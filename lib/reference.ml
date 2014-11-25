@@ -14,11 +14,11 @@
  * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  *)
 
-open Sexplib.Std
+
 
 module Log = Log.Make(struct let section = "reference" end)
 
-type t = string with sexp
+type t = string [@@deriving show]
 
 let compare = String.compare
 let equal = (=)
